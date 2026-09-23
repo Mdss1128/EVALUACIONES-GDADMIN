@@ -237,7 +237,7 @@
           <input type="number" id="d-edad" placeholder="Años" min="18" max="90" oninput="this.style.border='';this.style.background='';">
         </div>
         <div class="field">
-          <label>Sexo</label>
+          <label>Sexo *</label>
           <select id="d-sexo" onchange="this.style.border='';this.style.background='';">
             <option value="">— seleccionar —</option>
             <option>Hombre</option>
@@ -272,7 +272,7 @@
   <div class="screen" id="s2">
     <p class="screen-title">Cuestionario 1 de 3</p>
     <h2 style="font-size:22px;font-weight:700;color:#1e3a5f;margin:0.5rem 0 2px;letter-spacing:1px">GAD-7</h2>
-    <div class="instruc">Durante las <strong>últimas 2 semanas</strong>, ¿Qué tan seguido ha tenido molestias debido a los siguientes problemas?</div>
+    <div class="instruc">Durante las <strong>últimas 2 semanas</strong>, ¿qué tan seguido ha tenido molestias debido a los siguientes problemas?</div>
     <div class="card" id="gad-cont"></div>
     <div class="err" id="err-gad">Por favor responde todos los ítems antes de continuar.</div>
     <div class="nav">
@@ -285,7 +285,7 @@
   <div class="screen" id="s3">
     <p class="screen-title">Cuestionario 2 de 3</p>
     <h2 style="font-size:22px;font-weight:700;color:#1e3a5f;margin:0.5rem 0 2px;letter-spacing:1px">PHQ-9</h2>
-    <div class="instruc">Durante las <strong>últimas 2 semanas</strong>, ¿Qué tan seguido ha tenido molestias debido a los siguientes problemas?</div>
+    <div class="instruc">Durante las <strong>últimas 2 semanas</strong>, ¿qué tan seguido ha tenido molestias debido a los siguientes problemas?</div>
     <div class="card" id="phq-cont"></div>
     <div class="err" id="err-phq">Por favor responde todos los ítems antes de continuar.</div>
     <div class="nav">
@@ -333,24 +333,24 @@
 const WEBHOOK = 'https://script.google.com/macros/s/AKfycbywpgvIUVozDt1BNyLNef77ne2p5NLw0DKXNB94LXUMxZ39XWxnoeGePl7SPNoFo0XCvw/exec';
 
 const GAD = [
-  "<strong>En las últimas 2 semanas</strong>, ¿Se ha sentido nervioso(a), ansioso(a) o con los nervios de punta?",
-  "<strong>En las últimas 2 semanas</strong>, ¿No ha sido capaz de parar o controlar su preocupación?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Se ha preocupado demasiado por motivos diferentes?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Ha tenido dificultad para relajarse?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Se ha sentido tan inquieto(a) que no ha podido quedarse quieto(a)?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Se ha molestado o irritado fácilmente?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Ha tenido miedo de que algo terrible fuera a pasar?"
+  "<strong>En las últimas 2 semanas</strong>, ¿se ha sentido nervioso(a), ansioso(a) o con los nervios de punta?",
+  "<strong>En las últimas 2 semanas</strong>, ¿no ha sido capaz de parar o controlar su preocupación?",
+  "<strong>En las últimas 2 semanas</strong>, ¿se ha preocupado demasiado por motivos diferentes?",
+  "<strong>En las últimas 2 semanas</strong>, ¿ha tenido dificultad para relajarse?",
+  "<strong>En las últimas 2 semanas</strong>, ¿se ha sentido tan inquieto(a) que no ha podido quedarse quieto(a)?",
+  "<strong>En las últimas 2 semanas</strong>, ¿se ha molestado o irritado fácilmente?",
+  "<strong>En las últimas 2 semanas</strong>, ¿ha tenido miedo de que algo terrible fuera a pasar?"
 ];
 const PHQ = [
-  "<strong>En las últimas 2 semanas</strong>, ¿Ha tenido poco interés o placer en hacer cosas?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Se ha sentido decaído(a), deprimido(a) o sin esperanzas?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Ha tenido dificultad para quedarse o permanecer dormido(a), o ha dormido demasiado?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Se ha sentido cansado(a) o con poca energía?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Ha estado sin apetito o ha comido en exceso?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Se ha sentido mal con usted mismo(a), o que es un fracaso, o que ha quedado mal con usted mismo(a) o con su familia?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Ha tenido dificultad para concentrarse en ciertas actividades, tales como leer el periódico o ver la televisión?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Se ha movido o hablado tan lento que otras personas podrían haberlo notado? O lo contrario, ¿Ha estado tan inquieto(a) o agitado(a) que se ha movido mucho más de lo normal?",
-  "<strong>En las últimas 2 semanas</strong>, ¿Ha tenido pensamientos de que estaría mejor muerto(a) o de lastimarse de alguna manera?"
+  "<strong>En las últimas 2 semanas</strong>, ¿ha tenido poco interés o placer en hacer cosas?",
+  "<strong>En las últimas 2 semanas</strong>, ¿se ha sentido decaído(a), deprimido(a) o sin esperanzas?",
+  "<strong>En las últimas 2 semanas</strong>, ¿ha tenido dificultad para quedarse o permanecer dormido(a), o ha dormido demasiado?",
+  "<strong>En las últimas 2 semanas</strong>, ¿se ha sentido cansado(a) o con poca energía?",
+  "<strong>En las últimas 2 semanas</strong>, ¿ha estado sin apetito o ha comido en exceso?",
+  "<strong>En las últimas 2 semanas</strong>, ¿se ha sentido mal con usted mismo(a), o que es un fracaso, o que ha quedado mal con usted mismo(a) o con su familia?",
+  "<strong>En las últimas 2 semanas</strong>, ¿ha tenido dificultad para concentrarse en ciertas actividades, tales como leer el periódico o ver la televisión?",
+  "<strong>En las últimas 2 semanas</strong>, ¿se ha movido o hablado tan lento que otras personas podrían haberlo notado? O lo contrario, ¿ha estado tan inquieto(a) o agitado(a) que se ha movido mucho más de lo normal?",
+  "<strong>En las últimas 2 semanas</strong>, ¿ha tenido pensamientos de que estaría mejor muerto(a) o de lastimarse de alguna manera?"
 ];
 const FREQ4 = [{v:0,l:'Ningún día'},{v:1,l:'Varios días'},{v:2,l:'Más de la mitad de los días'},{v:3,l:'Casi todos los días'}];
 const SUST = [
@@ -421,17 +421,17 @@ function buildAssist(){
   const c=document.getElementById('assist-cont');c.innerHTML='';
   SUST.forEach(s=>{
     const qs=s.isTab?[
-      {label:'<strong>En los últimos 3 meses</strong>, ¿Con qué frecuencia ha consumido tabaco?',opts:Q2O,qn:2},
-      {label:'<strong>En los últimos 3 meses</strong>, ¿Con qué frecuencia ha sentido un fuerte deseo o ansias de consumir tabaco?',opts:Q3O,qn:3},
-      {label:'<strong>En los últimos 3 meses</strong>, ¿Con qué frecuencia el consumo de tabaco le ha causado problemas de salud, sociales, legales o económicos?',opts:Q4O,qn:4},
-      {label:'¿<strong>alguna vez</strong> alguien ha mostrado preocupación por sus hábitos de consumo de tabaco?',opts:Q67O,qn:6},
+      {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia ha consumido tabaco?',opts:Q2O,qn:2},
+      {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia ha sentido un fuerte deseo o ansias de consumir tabaco?',opts:Q3O,qn:3},
+      {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia el consumo de tabaco le ha causado problemas de salud, sociales, legales o económicos?',opts:Q4O,qn:4},
+      {label:'¿<strong>Alguna vez</strong> alguien ha mostrado preocupación por sus hábitos de consumo de tabaco?',opts:Q67O,qn:6},
       {label:'¿Ha intentado <strong>alguna vez</strong> reducir o eliminar el consumo de tabaco sin lograrlo?',opts:Q67O,qn:7}
     ]:[
-      {label:'<strong>En los últimos 3 meses</strong>, ¿Con qué frecuencia ha consumido esta sustancia?',opts:Q2O,qn:2},
-      {label:'<strong>En los últimos 3 meses</strong>, ¿Con qué frecuencia ha sentido un fuerte deseo o ansias de consumir esta sustancia?',opts:Q3O,qn:3},
-      {label:'<strong>En los últimos 3 meses</strong>, ¿Con qué frecuencia el consumo de esta sustancia le ha causado problemas de salud, sociales, legales o económicos?',opts:Q4O,qn:4},
-      {label:'<strong>En los últimos 3 meses</strong>, ¿Con qué frecuencia dejó de hacer lo que habitualmente se esperaba de usted debido al consumo de esta sustancia?',opts:Q5O,qn:5},
-      {label:'¿<strong>alguna vez</strong> alguien ha mostrado preocupación por sus hábitos de consumo de esta sustancia?',opts:Q67O,qn:6},
+      {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia ha consumido esta sustancia?',opts:Q2O,qn:2},
+      {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia ha sentido un fuerte deseo o ansias de consumir esta sustancia?',opts:Q3O,qn:3},
+      {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia el consumo de esta sustancia le ha causado problemas de salud, sociales, legales o económicos?',opts:Q4O,qn:4},
+      {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia dejó de hacer lo que habitualmente se esperaba de usted debido al consumo de esta sustancia?',opts:Q5O,qn:5},
+      {label:'¿<strong>Alguna vez</strong> alguien ha mostrado preocupación por sus hábitos de consumo de esta sustancia?',opts:Q67O,qn:6},
       {label:'¿Ha intentado <strong>alguna vez</strong> reducir o eliminar el consumo de esta sustancia sin lograrlo?',opts:Q67O,qn:7}
     ];
     const div=document.createElement('div');div.className='sust-box';
@@ -455,7 +455,7 @@ function buildAssist(){
   q8div.style.marginTop='1rem';
   q8div.style.display='none';
   q8div.innerHTML=`<div class="sust-hdr" style="background:#eff6ff;border-left:3px solid #2563eb">
-    <label style="color:#1e3a5f;font-weight:600">¿<strong>alguna vez</strong> ha consumido alguna droga por vía inyectada?</label>
+    <label style="color:#1e3a5f;font-weight:600">¿<strong>Alguna vez</strong> ha consumido alguna droga por vía inyectada?</label>
   </div>
   <div class="sust-detail open" style="display:block">
     <div class="sopts">
