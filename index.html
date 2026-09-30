@@ -272,7 +272,7 @@
   <div class="screen" id="s2">
     <p class="screen-title">Cuestionario 1 de 3</p>
     <h2 style="font-size:22px;font-weight:700;color:#1e3a5f;margin:0.5rem 0 2px;letter-spacing:1px">GAD-7</h2>
-    <div class="instruc">Durante las <strong>últimas 2 semanas</strong>, ¿qué tan seguido ha tenido molestias debido a los siguientes problemas?</div>
+    <div class="instruc">Durante las <strong>últimas 2 semanas</strong>, ¿Qué tan seguido ha tenido molestias debido a los siguientes problemas?</div>
     <div class="card" id="gad-cont"></div>
     <div class="err" id="err-gad">Por favor responde todos los ítems antes de continuar.</div>
     <div class="nav">
@@ -285,7 +285,7 @@
   <div class="screen" id="s3">
     <p class="screen-title">Cuestionario 2 de 3</p>
     <h2 style="font-size:22px;font-weight:700;color:#1e3a5f;margin:0.5rem 0 2px;letter-spacing:1px">PHQ-9</h2>
-    <div class="instruc">Durante las <strong>últimas 2 semanas</strong>, ¿qué tan seguido ha tenido molestias debido a los siguientes problemas?</div>
+    <div class="instruc">Durante las <strong>últimas 2 semanas</strong>, ¿Qué tan seguido ha tenido molestias debido a los siguientes problemas?</div>
     <div class="card" id="phq-cont"></div>
     <div class="err" id="err-phq">Por favor responde todos los ítems antes de continuar.</div>
     <div class="nav">
@@ -357,7 +357,7 @@ const PHQ = [
   "<strong>En las últimas 2 semanas</strong>, ¿ha estado sin apetito o ha comido en exceso?",
   "<strong>En las últimas 2 semanas</strong>, ¿se ha sentido mal con usted mismo(a), o que es un fracaso, o que ha quedado mal con usted mismo(a) o con su familia?",
   "<strong>En las últimas 2 semanas</strong>, ¿ha tenido dificultad para concentrarse en ciertas actividades, tales como leer el periódico o ver la televisión?",
-  "<strong>En las últimas 2 semanas</strong>, ¿se ha movido o hablado tan lento que otras personas podrían haberlo notado? O lo contrario, ¿Ha estado tan inquieto(a) o agitado(a) que se ha movido mucho más de lo normal?",
+  "<strong>En las últimas 2 semanas</strong>, ¿se ha movido o hablado tan lento que otras personas podrían haberlo notado? O lo contrario, ¿ha estado tan inquieto(a) o agitado(a) que se ha movido mucho más de lo normal?",
   "<strong>En las últimas 2 semanas</strong>, ¿ha tenido pensamientos de que estaría mejor muerto(a) o de lastimarse de alguna manera?"
 ];
 const FREQ4 = [{v:0,l:'Ningún día'},{v:1,l:'Varios días'},{v:2,l:'Más de la mitad de los días'},{v:3,l:'Casi todos los días'}];
@@ -432,7 +432,7 @@ function buildAssist(){
       {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia ha consumido tabaco?',opts:Q2O,qn:2},
       {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia ha sentido un fuerte deseo o ansias de consumir tabaco?',opts:Q3O,qn:3},
       {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia el consumo de tabaco le ha causado problemas de salud, sociales, legales o económicos?',opts:Q4O,qn:4},
-      {label:'¿<strong>alguna vez</strong> alguien ha mostrado preocupación por sus hábitos de consumo de tabaco?',opts:Q67O,qn:6},
+      {label:'¿<strong>Alguna vez</strong> alguien ha mostrado preocupación por sus hábitos de consumo de tabaco?',opts:Q67O,qn:6},
       {label:'¿Ha intentado <strong>alguna vez</strong> reducir o eliminar el consumo de tabaco sin lograrlo?',opts:Q67O,qn:7}
     ]:[
       {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia ha consumido esta sustancia?',opts:Q2O,qn:2},
@@ -463,7 +463,7 @@ function buildAssist(){
   q8div.style.marginTop='1rem';
   q8div.style.display='none';
   q8div.innerHTML=`<div class="sust-hdr" style="background:#eff6ff;border-left:3px solid #2563eb">
-    <label style="color:#1e3a5f;font-weight:600">¿<strong>alguna vez</strong> ha consumido alguna droga por vía inyectada?</label>
+    <label style="color:#1e3a5f;font-weight:600">¿<strong>Alguna vez</strong> ha consumido alguna droga por vía inyectada?</label>
   </div>
   <div class="sust-detail open" style="display:block">
     <div class="sopts">
@@ -779,106 +779,85 @@ function prepararDatos(){
   };
 }
 
-// ── COLA LOCAL: guarda evaluaciones pendientes en localStorage ──────────────
-const QUEUE_KEY = 'eval_pendientes';
-
-function guardarEnCola(payload){
-  try{
-    const cola = JSON.parse(localStorage.getItem(QUEUE_KEY)||'[]');
-    cola.push({ts: Date.now(), payload});
-    localStorage.setItem(QUEUE_KEY, JSON.stringify(cola));
-  }catch(e){ console.warn('No se pudo guardar en cola local:', e); }
-}
-
-async function reenviarPendientes(){
-  try{
-    const cola = JSON.parse(localStorage.getItem(QUEUE_KEY)||'[]');
-    if(!cola.length) return;
-    const restantes = [];
-    for(const item of cola){
-      try{
-        await fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:item.payload});
-        console.log('Pendiente reenviado:', item.ts);
-      }catch(e){
-        restantes.push(item); // sigue pendiente
-      }
-    }
-    localStorage.setItem(QUEUE_KEY, JSON.stringify(restantes));
-    if(restantes.length < cola.length){
-      console.log((cola.length - restantes.length) + ' evaluación(es) pendiente(s) reenviada(s) automáticamente.');
-    }
-  }catch(e){ console.warn('Error al reenviar pendientes:', e); }
-}
-
-// Al cargar la página, intentar reenviar cualquier evaluación guardada
-window.addEventListener('load', ()=>{ setTimeout(reenviarPendientes, 2000); });
-// También reenviar cuando el dispositivo recupera conexión
-window.addEventListener('online', reenviarPendientes);
-
-// ── ENVÍO PRINCIPAL ──────────────────────────────────────────────────────────
-async function enviarConReintentos(){
+// ── ENVÍO PRINCIPAL via iframe oculto (evita bloqueo CORS) ──────────────────
+function enviarConReintentos(){
   go(5);
-  const btn = document.getElementById('btn-gracias');
   const msgDiv = document.getElementById('msg-envio');
+  const btn = document.getElementById('btn-gracias');
   if(btn) btn.style.display='none';
-  if(msgDiv) msgDiv.textContent='Enviando información...';
+  if(msgDiv){ msgDiv.textContent='Enviando información...'; msgDiv.style.color='#1d4ed8'; }
 
-  const payload = JSON.stringify(datosFinales);
-  const MAX_INTENTOS = 4;
-  const DELAY = [1500, 3000, 6000, 10000];
+  // Crear iframe oculto como target del form (evita redirección)
+  let iframe = document.getElementById('_submit_frame');
+  if(!iframe){
+    iframe = document.createElement('iframe');
+    iframe.name = '_submit_frame';
+    iframe.id = '_submit_frame';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+  }
 
-  for(let intento = 0; intento < MAX_INTENTOS; intento++){
-    try{
-      await fetch(WEBHOOK,{
-        method:'POST', mode:'no-cors',
-        headers:{'Content-Type':'text/plain;charset=UTF-8'},
-        body: payload
-      });
-      // Éxito — limpiar cola si este payload estaba pendiente
-      if(msgDiv){ msgDiv.textContent='✓ Información registrada correctamente.'; msgDiv.style.color='#16a34a'; }
-      if(btn) btn.style.display='';
-      return;
-    }catch(e){
-      console.error('Intento '+(intento+1)+' fallido:',e);
-      if(intento < MAX_INTENTOS-1){
-        if(msgDiv) msgDiv.textContent='Reintentando... ('+(intento+2)+'/'+MAX_INTENTOS+')';
-        await new Promise(r=>setTimeout(r, DELAY[intento]));
-      }
+  // Crear form oculto que apunta al iframe
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = WEBHOOK;
+  form.target = '_submit_frame';
+  form.style.display = 'none';
+
+  // Campo único con el JSON como texto plano
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'data';
+  input.value = JSON.stringify(datosFinales);
+  form.appendChild(input);
+  document.body.appendChild(form);
+
+  // Detectar carga del iframe = respuesta recibida
+  let respondido = false;
+  iframe.onload = function(){
+    if(respondido) return;
+    respondido = true;
+    if(msgDiv){ msgDiv.textContent='✓ Información registrada correctamente.'; msgDiv.style.color='#16a34a'; }
+    if(btn) btn.style.display='';
+    document.body.removeChild(form);
+  };
+
+  // Timeout: si en 20s no responde, activar respaldo
+  setTimeout(function(){
+    if(!respondido){
+      respondido = true;
+      activarRespaldo();
+      document.body.removeChild(form);
     }
-  }
+  }, 20000);
 
-  // ── TODOS LOS INTENTOS FALLARON ─────────────────────────────────────────
-  // 1) Guardar en cola local para reenvío automático cuando vuelva la conexión
-  guardarEnCola(payload);
+  form.submit();
+}
 
-  // 2) Enviar correo de respaldo via mailto (abre el cliente de correo del dispositivo)
+function activarRespaldo(){
+  const msgDiv = document.getElementById('msg-envio');
+  const btn = document.getElementById('btn-gracias');
+  // Guardar en localStorage
+  try{
+    const cola = JSON.parse(localStorage.getItem('eval_pendientes')||'[]');
+    cola.push({ts: Date.now(), payload: JSON.stringify(datosFinales)});
+    localStorage.setItem('eval_pendientes', JSON.stringify(cola));
+  }catch(e){}
+  // Abrir correo de respaldo
   const d = datosFinales;
-  const asunto = encodeURIComponent('[RESPALDO] Evaluación no registrada — ' + (d.codigo||'sin código'));
+  const asunto = encodeURIComponent('[RESPALDO] Evaluación no registrada — '+(d.codigo||'sin código'));
   const cuerpo = encodeURIComponent(
-    'Esta evaluación no pudo registrarse automáticamente. Ingrésala al Sheet.\n\n' +
-    'DATOS PERSONALES\n' +
-    'Código: ' + (d.codigo||'-') + '\n' +
-    'Nombre: ' + (d.nombre_completo||'-') + '\n' +
-    'Cédula: ' + (d.cedula||'-') + '\n' +
-    'Fecha: ' + (d.fecha||'-') + ' ' + (d.hora||'-') + '\n' +
-    'Edad: ' + (d.edad||'-') + ' | Sexo: ' + (d.sexo||'-') + '\n' +
-    'Motivo: ' + (d.motivo_consulta||'-') + '\n' +
-    'Consentimiento: ' + (d.consentimiento||'-') + '\n\n' +
-    'RESULTADOS\n' +
-    'GAD-7: ' + (d.gad7_total||'0') + '/21 — ' + (d.gad7_nivel||'-') + '\n' +
-    'PHQ-9: ' + (d.phq9_total||'0') + '/27 — ' + (d.phq9_nivel||'-') + '\n' +
-    'Ideación: ' + (d.ideacion||'-') + '\n' +
-    'ASSIST: ' + (d.assist_resumen||'-') + '\n\n' +
-    'PLAN ORIENTATIVO\n' + (d.plan||'-')
+    'Evaluación no registrada automáticamente.\n\n'+
+    'Código: '+(d.codigo||'-')+'\nNombre: '+(d.nombre_completo||'-')+'\nCédula: '+(d.cedula||'-')+
+    '\nFecha: '+(d.fecha||'-')+' '+(d.hora||'-')+'\nEdad: '+(d.edad||'-')+' | Sexo: '+(d.sexo||'-')+
+    '\nMotivo: '+(d.motivo_consulta||'-')+'\nConsentimiento: '+(d.consentimiento||'-')+
+    '\n\nGAD-7: '+(d.gad7_total||0)+'/21 — '+(d.gad7_nivel||'-')+
+    '\nPHQ-9: '+(d.phq9_total||0)+'/27 — '+(d.phq9_nivel||'-')+
+    '\nIdeación: '+(d.ideacion||'-')+'\nASSIST: '+(d.assist_resumen||'-')+
+    '\n\nPlan: '+(d.plan||'-')
   );
-  // Abrir correo automáticamente
-  const mailtoLink = 'mailto:admisiones.caasm@outlook.es,melu070812@gmail.com?subject='+asunto+'&body='+cuerpo;
-  window.open(mailtoLink, '_blank');
-
-  if(msgDiv){
-    msgDiv.innerHTML='⚠️ Sin conexión — se abrió el correo de respaldo y los datos quedaron guardados en este dispositivo para reenvío automático.';
-    msgDiv.style.color='#b91c1c';
-  }
+  window.open('mailto:admisiones.caasm@outlook.es,melu070812@gmail.com?subject='+asunto+'&body='+cuerpo,'_blank');
+  if(msgDiv){ msgDiv.innerHTML='⚠️ Error al registrar — se abrió correo de respaldo.'; msgDiv.style.color='#b91c1c'; }
   if(btn) btn.style.display='';
 }
 
