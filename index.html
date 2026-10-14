@@ -823,13 +823,13 @@ function enviarConReintentos(){
     try{ document.body.removeChild(form); }catch(e){}
   };
 
-  // Timeout de seguridad: si en 25 s no hubo respuesta, mostrar error y respaldo
+  // Timeout de seguridad: si en 60 s no hubo respuesta, mostrar error y respaldo
   setTimeout(function(){
     if(respondido) return;
     respondido = true;
     try{ document.body.removeChild(form); }catch(e){}
     activarRespaldo();
-  }, 25000);
+  }, 60000);
 
   form.submit();
 }
