@@ -439,7 +439,7 @@ function buildAssist(){
       {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia ha sentido un fuerte deseo o ansias de consumir esta sustancia?',opts:Q3O,qn:3},
       {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia el consumo de esta sustancia le ha causado problemas de salud, sociales, legales o económicos?',opts:Q4O,qn:4},
       {label:'<strong>En los últimos 3 meses</strong>, ¿con qué frecuencia dejó de hacer lo que habitualmente se esperaba de usted debido al consumo de esta sustancia?',opts:Q5O,qn:5},
-      {label:'¿<strong>Alguna vez</strong> alguien ha mostrado preocupación por sus hábitos de consumo de esta sustancia?',opts:Q67O,qn:6},
+      {label:'¿<strong>alguna vez</strong> Alguien ha mostrado preocupación por sus hábitos de consumo de esta sustancia?',opts:Q67O,qn:6},
       {label:'¿Ha intentado <strong>alguna vez</strong> reducir o eliminar el consumo de esta sustancia sin lograrlo?',opts:Q67O,qn:7}
     ];
     const div=document.createElement('div');div.className='sust-box';
@@ -818,7 +818,8 @@ function enviarConReintentos(){
     if(respondido) return;
     respondido = true;
     if(msgDiv){ msgDiv.textContent='✓ Información registrada correctamente.'; msgDiv.style.color='#16a34a'; }
-    if(btn) btn.style.display='';
+    var btnG = document.getElementById('btn-gracias');
+    if(btnG){ btnG.style.display='block'; btnG.style.visibility='visible'; }
     try{ document.body.removeChild(form); }catch(e){}
   };
 
@@ -871,7 +872,9 @@ function activarRespaldo(){
     msgDiv.innerHTML='⚠️ No se pudo registrar automáticamente. Se abrió un correo de respaldo — envíalo para no perder los datos.';
     msgDiv.style.color='#b91c1c';
   }
-  if(btn) btn.style.display='';
+  // Siempre mostrar el botón Nueva evaluación
+  var btnG = document.getElementById('btn-gracias');
+  if(btnG){ btnG.style.display='block'; btnG.style.visibility='visible'; }
 }
 
 // ── REENVÍO DE PENDIENTES al abrir la página ─────────────────────────────────
